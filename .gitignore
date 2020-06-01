@@ -3,3 +3,4 @@
 .DS_Store
 **/.history
 /nbproject
+/src/utils/config-local.js

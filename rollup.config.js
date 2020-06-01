@@ -7,6 +7,7 @@ import copy from 'rollup-plugin-copy'
 import del from 'del'
 import css from 'rollup-plugin-css-porter'
 import {promises as fs} from 'fs'
+import {setBasePath, appEntryPoint} from './src/utils/config-local.js'
 
 
 
@@ -21,8 +22,6 @@ const shouldPrerender = (typeof process.env.PRERENDER !== 'undefined') ? process
 del.sync(distDir + '/**')
 
 function createConfig({ output, inlineDynamicImports, plugins = [] }) {
-  const transform = inlineDynamicImports ? bundledTransform : dynamicTransform
-
   return {
     inlineDynamicImports,
     input: `src/main.js`,
@@ -33,11 +32,7 @@ function createConfig({ output, inlineDynamicImports, plugins = [] }) {
     },
     plugins: [
       copy({
-        targets: [
-          { src: staticDir + '/*', dest: distDir },
-          // { src: staticDir + '/**/!(__index.html)', dest: distDir },
-          // { src: `${staticDir}/__index.html`, dest: distDir, rename: '__app.html', transform },
-        ],
+        targets: [{ src: staticDir + '/*', dest: distDir }],
         copyOnce: true,
         flatten: false,
       }),
@@ -48,13 +43,11 @@ function createConfig({ output, inlineDynamicImports, plugins = [] }) {
         hydratable: true,
         // we'll extract any component CSS out into
         // a separate file — better for performance
-        css: css => {
-          css.write(`${buildDir}/bundle.css`);
-        },
+        css: (css) => css.write(`${buildDir}/bundle.css`),
         preprocess: pagar(),
       }),
 
-      css({dest: `${buildDir}/vendor.css`}),
+      css({dest: `${buildDir}/global.min.css`}),
 
       // If you have external dependencies installed from
       // npm, you'll most likely need these plugins. In
@@ -140,23 +133,12 @@ function prerender() {
   }
 }
 
-function bundledTransform(contents) {
-  return contents.toString().replace('__SCRIPT__', `
-	<script defer src="/build/bundle.js"></script>
-	`)
-}
 
-function dynamicTransform(contents) {
-  return contents.toString().replace('__SCRIPT__', `
-	<script type="module" defer src="https://unpkg.com/dimport@1.0.0/dist/index.mjs?module" data-main="/build/main.js"></script>
-	<script nomodule defer src="https://unpkg.com/dimport/nomodule" data-main="/build/main.js"></script>
-	`)
-}
-
-
-function appEntry(file = '__app.html') {
+function appEntry() {
   let written = false
   let template = `<!DOCTYPE html><html lang="id">`
+  let basepath = {set(path) {this.path = path}}
+  setBasePath(basepath)
 
   return {
     buildEnd() {
@@ -164,14 +146,14 @@ function appEntry(file = '__app.html') {
         return
       }
       if (bundling === 'bundle') {
-        template += `<script defer src="/build/bundle.js"></script>`
+        template += `<script defer src="${basepath.path}/build/bundle.js"></script>`
       } else {
         template += (`
-        <script type="module" defer src="/dimport/index.js?module" data-main="/build/main.js"></script>
-        <script nomodule defer src="/dimport/nomodule.js" data-main="/build/main.js"></script>
+        <script type="module" defer src="${basepath.path}/dimport/index.js?module" data-main="${basepath.path}/build/main.js"></script>
+        <script nomodule defer src="${basepath.path}/dimport/nomodule.js" data-main="${basepath.path}/build/main.js"></script>
         `)
       }
-      written = fs.writeFile(distDir +'/'+ file, template);
+      written = fs.writeFile(distDir +'/'+ appEntryPoint, template);
     }
   }
 }
