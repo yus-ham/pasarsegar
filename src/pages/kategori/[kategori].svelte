@@ -1,8 +1,15 @@
 <script>
+  import {basepath} from '@sveltech/routify';
   import LocationSearchForm from '../../widgets/LocationSearchForm.svelte';
   import Header from '../../widgets/Header.svelte';
   import TopBar from '../../widgets/TopBar.svelte';
-  const onMount = () => void 0
+
+  let produks = [
+    {},
+    {},
+    {},
+    {},
+  ]
 </script>
 
 <style>
@@ -10,15 +17,6 @@
 
 <div id="PageContainer"></div>
 <div class="quick-view"></div>
-
-<!--<nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left " id="cbp-spmenu-s1">
-  <div class="gf-menu-device-wrapper">
-    <div class="close-menu">x</div>
-    <div class="gf-menu-device-container"></div>
-  </div>
-</nav>-->
-
-
 
 <div class="wrapper-container">
   <div class="header-type-2">
@@ -67,6 +65,7 @@
                       <div class="dt-sc-tabs-content">
                         <ul class="grid__item">
 
+                          {#each produks as produk}
                           <li class="grid__item item-row wide--one-sixth post-large--one-sixth large--one-quarter medium--one-half small--grid-item six_ppr medium--one-half small--one-half " id="product-4508685697087" >
                             <div class="products product-hover-9">
                               <div class="product-container">
@@ -159,6 +158,7 @@
 
                             </div>
                           </li>
+                          {#endeach}
 
                         </ul>
                       </div>
