@@ -1,4 +1,5 @@
 <script>
+  import {basepath} from '@sveltech/routify';
   import LocationSearchForm from '../widgets/LocationSearchForm.svelte';
   import Header from '../widgets/Header.svelte';
   import TopBar from '../widgets/TopBar.svelte';
@@ -6,6 +7,16 @@
 </script>
 
 <style>
+.grid-banner-type-14-section .grid__item {
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+.grid__item:nth-child(3) .featured-content:after {
+    background: rgb(0, 170, 0);
+}
+.grid__item:nth-child(3) .featured-content .btn {
+    background: rgba(0, 128, 0, 0.66);
+}
 </style>
 
 <div id="PageContainer"></div>
@@ -178,19 +189,27 @@
               <div class="container">
                 <div class=" grid-banner-type-14-section">
                   <div class="grid__item wide--one-half post-large--one-half large--one-half medium-down--one-half small--grid__item img-hover-effect-3 img-hover-effect wow fadeInLeft animated">
-                    <img src="//cdn.shopify.com/s/files/1/0108/7370/0415/files/img-1_1920X.jpg?v=1580208074" alt="Veggies" />
-                    <div class="featured-content" >
-                      <h5 style="color:#000">AlpaMaret</h5>
-                      <h4 style="color:#000"><span> 100% </span> Organic Products</h4>
-                      <a class="btn three" href="toko/alpamaret" style="color:#fff;border:none;background-color:#fe6d30;">Buy Now</a>
-                    </div>
-                  </div>
-                  <div class="grid__item wide--one-half post-large--one-half large--one-half medium-down--one-half small--grid__item img-hover-effect img-hover-effect-4 wow fadeInRight animated">
-                    <img src="//cdn.shopify.com/s/files/1/0108/7370/0415/files/img-2.jpg?v=1580208099" alt="Fruits" />
+                    <img src="{$basepath}/imgs/img-1_1920X.jpg" alt="Veggies" />
                     <div class="featured-content" >
                       <h5 style="color:#000">IndoApril</h5>
                       <h4 style="color:#000"><span> 100% </span> Organic Products</h4>
-                      <a class="btn four" href="toko/indoapril" style="color:#fff;border:none;background-color:#f4a602;">Buy Now</a>
+                      <a class="btn three" href="{$basepath}/pasar/indoapril" style="color:#fff;border:none;background-color:#fe6d30;">Lihat</a>
+                    </div>
+                  </div>
+                  <div class="grid__item wide--one-half post-large--one-half large--one-half medium-down--one-half small--grid__item img-hover-effect img-hover-effect-4 wow fadeInRight animated">
+                    <img src="{$basepath}/imgs/img-2.jpg" alt="Fruits" />
+                    <div class="featured-content" >
+                      <h5 style="color:#000">AlpaMei</h5>
+                      <h4 style="color:#000"><span> 100% </span> Organic Products</h4>
+                      <a class="btn four" href="{$basepath}/pasar/alpamei" style="color:#fff;border:none;background-color:#f4a602;">Lihat</a>
+                    </div>
+                  </div>
+                  <div style="background:#008000a8" class="grid__item wide--one-half post-large--one-half large--one-half medium-down--one-half small--grid__item img-hover-effect img-hover-effect-4 wow fadeInRight animated">
+                    <img src="{$basepath}/imgs/broc.jpg" alt="Fruits" style="opacity: 0.5435;"/>
+                    <div class="featured-content" >
+                      <h5 style="color:#000">PasarJaya</h5>
+                      <h4 style="color:#000"><span> 100% </span> Organic Products</h4>
+                      <a class="btn four" href="{$basepath}/pasar/pasarjaya" style="color:#fff;border:none;">Lihat</a>
                     </div>
                   </div>
                 </div>

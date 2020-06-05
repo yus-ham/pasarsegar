@@ -53,10 +53,6 @@
                                 Home
                               </span>
                             </a>
-
-
-
-
                           </li>
 
                           <li class=" dropdown mega-menu ">
@@ -66,9 +62,9 @@
                               </span>
                             </a>
 
-
                             <div class="site-nav-dropdown">
-                              <div class="container style_2"> <!-- container div start -->
+                              <div class="container style_2">
+                               <!-- container div start -->
 
                                 <div class="col-1 parent-mega-menu">
                                   <div class="inner col-xs-12 col-sm-4">
