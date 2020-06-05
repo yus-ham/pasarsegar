@@ -1,5 +1,5 @@
 <script>
-  import {goto, url} from '@sveltech/routify'
+  import {goto, url, basepath} from '@sveltech/routify'
   import {user, pageTitle} from '../utils/store'
   // import Swal from 'sweetalert2'
 
@@ -35,7 +35,7 @@
       <div class="container">
         <div class="grid--full site-header__menubar">
           <h1 class="site-header__logo order-header" itemscope itemtype="http://schema.org/Organization">
-            <a href="/" itemprop="url">
+            <a href="{$basepath}/" itemprop="url">
               <img class="normal-logo" src="//cdn.shopify.com/s/files/1/0108/7370/0415/t/2/assets/logo.png?v=12158625195246214118" alt="Groca" itemprop="logo">
             </a>
           </h1>
