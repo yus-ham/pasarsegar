@@ -7,7 +7,7 @@ import copy from 'rollup-plugin-copy'
 import del from 'del'
 import css from 'rollup-plugin-css-porter'
 import {promises as fs} from 'fs'
-const {basepath, entryPoint} = require('./routify.config.js');
+const {basepath} = require('./routify.config.js');
 
 
 const staticDir = 'static'
@@ -17,8 +17,6 @@ const production = !process.env.ROLLUP_WATCH;
 const bundling = process.env.BUNDLING || production ? 'dynamic' : 'bundle'
 const shouldPrerender = (typeof process.env.PRERENDER !== 'undefined') ? process.env.PRERENDER : !!production
 
-
-del.sync(distDir + '/**')
 
 function createConfig({ output, inlineDynamicImports, plugins = [] }) {
   return {
@@ -148,7 +146,7 @@ function appEntry() {
         template += `\n<script type="module" defer src="${basepath}/dimport/index.js?module" data-main="${basepath}/build/main.js"></script>`
                   + `\n<script nomodule defer src="${basepath}/dimport/nomodule.js" data-main="${basepath}/build/main.js"></script>`
       }
-      written = fs.writeFile(distDir +'/'+ entryPoint, template);
+      written = fs.writeFile(distDir +'/__app.html', template);
     }
   }
 }

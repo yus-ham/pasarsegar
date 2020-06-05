@@ -1,4 +1,3 @@
  module.exports = {
     "basepath": "",
-    "entryPoint": "__app.html",
 }
