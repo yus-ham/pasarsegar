@@ -3,4 +3,4 @@
 .DS_Store
 **/.history
 /nbproject
-/src/utils/config-local.js
+/routify.config.js

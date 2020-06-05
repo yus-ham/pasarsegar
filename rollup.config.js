@@ -7,8 +7,7 @@ import copy from 'rollup-plugin-copy'
 import del from 'del'
 import css from 'rollup-plugin-css-porter'
 import {promises as fs} from 'fs'
-import {setBasePath, appEntryPoint} from './src/utils/config-local.js'
-
+const {basepath, entryPoint} = require('./routify.config.js');
 
 
 const staticDir = 'static'
@@ -137,8 +136,6 @@ function prerender() {
 function appEntry() {
   let written = false
   let template = `<!DOCTYPE html><html lang="id">`
-  let basepath = {set(path) {this.path = path}}
-  setBasePath(basepath)
 
   return {
     buildEnd() {
@@ -146,14 +143,12 @@ function appEntry() {
         return
       }
       if (bundling === 'bundle') {
-        template += `<script defer src="${basepath.path}/build/bundle.js"></script>`
+        template += `<script defer src="${basepath}/build/bundle.js"></script>`
       } else {
-        template += (`
-        <script type="module" defer src="${basepath.path}/dimport/index.js?module" data-main="${basepath.path}/build/main.js"></script>
-        <script nomodule defer src="${basepath.path}/dimport/nomodule.js" data-main="${basepath.path}/build/main.js"></script>
-        `)
+        template += `\n<script type="module" defer src="${basepath}/dimport/index.js?module" data-main="${basepath}/build/main.js"></script>`
+                  + `\n<script nomodule defer src="${basepath}/dimport/nomodule.js" data-main="${basepath}/build/main.js"></script>`
       }
-      written = fs.writeFile(distDir +'/'+ appEntryPoint, template);
+      written = fs.writeFile(distDir +'/'+ entryPoint, template);
     }
   }
 }

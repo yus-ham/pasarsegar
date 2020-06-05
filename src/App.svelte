@@ -1,10 +1,11 @@
 <script>
   import { Router, basepath } from "@sveltech/routify";
   import { routes } from "@sveltech/routify/tmp/routes";
-  import { setBasePath } from "./utils/config-local.js"
+  import config from "../routify.config.js";
   import "./css/frame.css";
   import "./css/global.css";
-  setBasePath(basepath)
+
+  $basepath = config.basepath
 </script>
 
 <svelte:head>
