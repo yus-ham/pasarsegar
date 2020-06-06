@@ -3,11 +3,11 @@ import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
-import copy from 'rollup-plugin-copy'
-import del from 'del'
-import css from 'rollup-plugin-css-porter'
+import copy from 'rollup-plugin-copy';
+import del from 'del';
+import css from 'rollup-plugin-css-porter';
 import {promises as fs} from 'fs'
-const {basepath} = require('./routify.config.js');
+import {basepath} from './routify.config.mjs';
 
 
 const staticDir = 'static'
@@ -17,6 +17,9 @@ const production = !process.env.ROLLUP_WATCH;
 const bundling = process.env.BUNDLING || production ? 'dynamic' : 'bundle'
 const shouldPrerender = (typeof process.env.PRERENDER !== 'undefined') ? process.env.PRERENDER : !!production
 
+
+del.sync(distDir + '/**')
+setBasepath()
 
 function createConfig({ output, inlineDynamicImports, plugins = [] }) {
   return {
@@ -149,6 +152,16 @@ function appEntry() {
       written = fs.writeFile(distDir +'/__app.html', template);
     }
   }
+}
+
+async function setBasepath() {
+  let config = './node_modules/@sveltech/routify/tmp/config.js'
+  let script = await fs.readFile(config)
+
+  if (script.indexOf('export const _basepath_') > 0) {
+    return
+  }
+  fs.appendFile(config, `\n\nexport const _basepath_ = '${basepath}'\n`)
 }
 
 function pagar() {
